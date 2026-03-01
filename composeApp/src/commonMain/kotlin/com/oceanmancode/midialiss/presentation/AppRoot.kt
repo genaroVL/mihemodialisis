@@ -7,7 +7,6 @@ import androidx.compose.runtime.remember
 import com.oceanmancode.midialiss.presentation.navigation.CalculateRoute
 import com.oceanmancode.midialiss.presentation.navigation.PatientsRoute
 import com.oceanmancode.midialiss.presentation.navigation.TopLevelRoute
-import com.oceanmancode.midialiss.presentation.screens.patient.PatientsPresenter
 import com.oceanmancode.midialiss.presentation.screens.patient.PatientsScreen
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -30,19 +29,29 @@ fun AppRoot(
     databaseBuilderProvider: DatabaseBuilderProvider
 ) {
     val tabs = remember { listOf<TopLevelRoute>(PatientsRoute, CalculateRoute) }
-    val appContainer = remember(databaseBuilderProvider){
+
+    val appContainer = remember(databaseBuilderProvider) {
         AppContainer(databaseBuilderProvider)
     }
-    val coroutineScope= rememberCoroutineScope()
-    val patientsPresenter = remember(appContainer){
+
+    val coroutineScope = rememberCoroutineScope()
+
+    val patientsPresenter = remember(appContainer) {
         appContainer.createPatientsPresenter(coroutineScope)
     }
+
     val backStack = rememberNavBackStack(
         nav3SavedStateConfig,
         PatientsRoute
     )
 
-    val selectedTab = (backStack.firstOrNull() as? TopLevelRoute) ?: PatientsRoute
+    val currentRoute = backStack.lastOrNull() ?: PatientsRoute
+    val showBottomBar = currentRoute == PatientsRoute || currentRoute == CalculateRoute
+    val selectedTab = when (currentRoute) {
+        PatientsRoute -> PatientsRoute
+        CalculateRoute -> CalculateRoute
+        else -> PatientsRoute
+    }
 
     fun switchTab(to: TopLevelRoute) {
         if (to == selectedTab) return
@@ -52,11 +61,13 @@ fun AppRoot(
 
     Scaffold(
         bottomBar = {
-            AppBottomBar(
-                tabs = tabs,
-                selected = selectedTab,
-                onSelect = { switchTab(it) }
-            )
+            if (showBottomBar) {
+                AppBottomBar(
+                    tabs = tabs,
+                    selected = selectedTab,
+                    onSelect = { switchTab(it) }
+                )
+            }
         }
     ) { padding ->
         NavDisplay(

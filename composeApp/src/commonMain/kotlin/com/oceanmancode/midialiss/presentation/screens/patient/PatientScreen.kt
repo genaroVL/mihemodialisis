@@ -7,6 +7,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.oceanmancode.midialiss.presentation.components.EmptyPatientsState
 import com.oceanmancode.midialiss.presentation.components.ErrorState
+import com.oceanmancode.midialiss.presentation.components.Loader
 import com.oceanmancode.midialiss.presentation.components.PatientsList
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -19,18 +20,14 @@ fun PatientsScreen(
     LaunchedEffect(Unit) { presenter.start() }
     val state by presenter.state.collectAsState()
 
-    Scaffold(
-        topBar = { TopAppBar(title = { Text("Pacientes") }) }
-    ) { padding ->
+    Scaffold{ padding ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
         ) {
+
             when {
-                state.isLoading -> {
-                    CircularProgressIndicator(Modifier.align(Alignment.Center))
-                }
 
                 state.errorMessage != null -> {
                     ErrorState(
@@ -50,6 +47,7 @@ fun PatientsScreen(
                     )
                 }
             }
+            Loader(visible = state.isLoading)
         }
     }
 }
