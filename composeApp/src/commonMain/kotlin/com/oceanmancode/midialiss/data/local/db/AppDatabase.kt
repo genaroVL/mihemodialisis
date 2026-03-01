@@ -1,5 +1,6 @@
 package com.oceanmancode.midialiss.data.local.db
 
+import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.oceanmancode.midialiss.data.local.dao.PatientDao
