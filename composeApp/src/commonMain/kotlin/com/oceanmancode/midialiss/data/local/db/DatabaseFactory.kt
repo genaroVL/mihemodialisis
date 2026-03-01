@@ -8,6 +8,7 @@ import kotlinx.coroutines.IO
 object DatabaseFactory {
     fun create(builderProvider: DatabaseBuilderProvider): AppDatabase {
         return builderProvider.provide()
+            .fallbackToDestructiveMigration(true)
             .setDriver(BundledSQLiteDriver())
             .setQueryCoroutineContext(Dispatchers.IO)
             .build()

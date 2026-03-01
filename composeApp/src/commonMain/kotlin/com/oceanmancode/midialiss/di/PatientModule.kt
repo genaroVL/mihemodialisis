@@ -1,27 +1,47 @@
 package com.oceanmancode.midialiss.di
 
-import com.oceanmancode.midialiss.core.createAppCoroutineScope
+import com.oceanmancode.midialiss.domain.repository.DialysisSessionRepository
 import com.oceanmancode.midialiss.domain.repository.PatientRepository
-import com.oceanmancode.midialiss.domain.usecase.patient.GetPatientById
+import com.oceanmancode.midialiss.domain.usecase.patient.DeletePatientUseCase
+import com.oceanmancode.midialiss.domain.usecase.patient.GetPatientByIdUseCase
+import com.oceanmancode.midialiss.domain.usecase.patient.ObservePatientsUseCase
 import com.oceanmancode.midialiss.domain.usecase.patient.PatientUseCases
-import com.oceanmancode.midialiss.domain.usecase.patient.SavePatient
-import com.oceanmancode.midialiss.presentation.patient.PatientPresenter
-
-
+import com.oceanmancode.midialiss.domain.usecase.patient.UpsertPatientUseCase
+import com.oceanmancode.midialiss.domain.usecase.session.AddDialysisSessionUseCase
+import com.oceanmancode.midialiss.domain.usecase.session.CalculateUltraFiltrationUseCase
+import com.oceanmancode.midialiss.domain.usecase.session.DeleteDialysisSessionUseCase
+import com.oceanmancode.midialiss.domain.usecase.session.ObserveSessionsByPatientUseCase
+import com.oceanmancode.midialiss.domain.usecase.session.SessionsUseCases
+import com.oceanmancode.midialiss.presentation.patient.PatientsPresenter
 import kotlinx.coroutines.CoroutineScope
 
-
 class PatientModule(
-    patientRepository: PatientRepository
+    patientRepository: PatientRepository,
+    dialysisSessionRepository: DialysisSessionRepository
 ) {
-    private val useCases = PatientUseCases(
-        getPatientById = GetPatientById(patientRepository),
-        savePatient = SavePatient(patientRepository)
+    private val patientUseCases = PatientUseCases(
+        observePatients = ObservePatientsUseCase(patientRepository),
+        getPatientById = GetPatientByIdUseCase(patientRepository),
+        upsertPatient = UpsertPatientUseCase(patientRepository),
+        deletePatient = DeletePatientUseCase(patientRepository)
     )
 
-    fun createPresenter(coroutineScope: CoroutineScope): PatientPresenter {
-        return PatientPresenter(
-            useCases = useCases,
+    private val calculateUltrafiltration = CalculateUltraFiltrationUseCase()
+
+    private val sessionUseCases = SessionsUseCases(
+        calculateUltrafiltration = calculateUltrafiltration,
+        observeSessionsByPatient = ObserveSessionsByPatientUseCase(dialysisSessionRepository),
+        addDialysisSession = AddDialysisSessionUseCase(
+            repository = dialysisSessionRepository,
+            calculateUltrafiltration = calculateUltrafiltration
+        ),
+        deleteDialysisSession = DeleteDialysisSessionUseCase(dialysisSessionRepository)
+    )
+
+
+    fun createPatientsPresenter(coroutineScope: CoroutineScope): PatientsPresenter {
+        return PatientsPresenter(
+            patientUseCases = patientUseCases,
             coroutineScope = coroutineScope
         )
     }

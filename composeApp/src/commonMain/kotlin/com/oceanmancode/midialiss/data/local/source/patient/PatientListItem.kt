@@ -1,7 +1,6 @@
-package com.oceanmancode.midialiss.domain.model
+package com.oceanmancode.midialiss.data.local.source.patient
 
-
-data class Patient(
+data class PatientListItem(
     val id: String,
     val firstName: String,
     val lastName: String,
@@ -9,7 +8,7 @@ data class Patient(
     val birthYear: Int,
     val curp: String?,
     val dryWeightKg: Double,
-    val lastSessionAtEpochMillis: Long? = null
+    val lastSessionAtEpochMillis: Long?
 ) {
     val fullName: String
         get() = buildString {
