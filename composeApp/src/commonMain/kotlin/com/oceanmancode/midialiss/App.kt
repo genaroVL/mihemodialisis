@@ -18,6 +18,7 @@ import org.jetbrains.compose.resources.painterResource
 
 import midialisis.composeapp.generated.resources.Res
 import midialisis.composeapp.generated.resources.compose_multiplatform
+import midialisis.composeapp.generated.resources.ic_calculator
 
 @Composable
 @Preview
@@ -40,7 +41,7 @@ fun App() {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    Image(painterResource(Res.drawable.compose_multiplatform), null)
+                    Image(painterResource(Res.drawable.ic_calculator), null)
                     Text("Compose: $greeting")
                 }
             }
