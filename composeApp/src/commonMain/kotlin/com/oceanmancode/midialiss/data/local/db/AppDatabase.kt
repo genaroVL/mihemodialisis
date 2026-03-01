@@ -11,6 +11,7 @@ import com.oceanmancode.midialiss.data.local.entity.PatientEntity
     version = DatabaseConfig.SCHEMA_VERSION,
     exportSchema = true
 )
+@ConstructedBy(AppDatabaseConstructor::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun patientDao(): PatientDao
 }
