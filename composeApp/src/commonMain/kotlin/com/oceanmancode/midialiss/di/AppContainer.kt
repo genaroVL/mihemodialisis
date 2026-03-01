@@ -1,7 +1,7 @@
 package com.oceanmancode.midialiss.di
 
 import com.oceanmancode.midialiss.data.local.db.DatabaseBuilderProvider
-import com.oceanmancode.midialiss.presentation.patient.PatientsPresenter
+import com.oceanmancode.midialiss.presentation.screens.patient.PatientsPresenter
 import kotlinx.coroutines.CoroutineScope
 
 class AppContainer(

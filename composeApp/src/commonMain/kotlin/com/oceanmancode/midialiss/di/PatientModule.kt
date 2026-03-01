@@ -12,7 +12,7 @@ import com.oceanmancode.midialiss.domain.usecase.session.CalculateUltraFiltratio
 import com.oceanmancode.midialiss.domain.usecase.session.DeleteDialysisSessionUseCase
 import com.oceanmancode.midialiss.domain.usecase.session.ObserveSessionsByPatientUseCase
 import com.oceanmancode.midialiss.domain.usecase.session.SessionsUseCases
-import com.oceanmancode.midialiss.presentation.patient.PatientsPresenter
+import com.oceanmancode.midialiss.presentation.screens.patient.PatientsPresenter
 import kotlinx.coroutines.CoroutineScope
 
 class PatientModule(
