@@ -31,7 +31,7 @@ interface PatientDao {
         p.firstName AS firstName,
         p.lastName AS lastName,
         p.secondLastName AS secondLastName,
-        p.birthYear AS birthYear,
+        p.birthDate AS birthDate,
         p.curp AS curp,
         p.dryWeightKg AS dryWeightKg,
         (

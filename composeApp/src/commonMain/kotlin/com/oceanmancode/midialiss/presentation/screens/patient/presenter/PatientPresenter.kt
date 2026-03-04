@@ -1,6 +1,7 @@
-package com.oceanmancode.midialiss.presentation.screens.patient
+package com.oceanmancode.midialiss.presentation.screens.patient.presenter
 
 import com.oceanmancode.midialiss.domain.usecase.patient.PatientUseCases
+import com.oceanmancode.midialiss.presentation.screens.patient.state.PatientsUiState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow

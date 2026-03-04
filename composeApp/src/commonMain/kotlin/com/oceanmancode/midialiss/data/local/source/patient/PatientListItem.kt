@@ -5,7 +5,7 @@ data class PatientListItem(
     val firstName: String,
     val lastName: String,
     val secondLastName: String,
-    val birthYear: Int,
+    val birthDate: String,
     val curp: String?,
     val dryWeightKg: Double,
     val lastSessionAtEpochMillis: Long?

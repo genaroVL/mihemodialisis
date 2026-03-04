@@ -22,6 +22,7 @@ import com.oceanmancode.midialiss.presentation.navigation.PatientDetailsRoute
 import com.oceanmancode.midialiss.presentation.navigation.RegisterPatientRoute
 import com.oceanmancode.midialiss.presentation.navigation.nav3SavedStateConfig
 import com.oceanmancode.midialiss.presentation.screens.calculate.CalculateScreen
+import com.oceanmancode.midialiss.presentation.screens.patient.RegisterPatientScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,8 +37,13 @@ fun AppRoot(
 
     val coroutineScope = rememberCoroutineScope()
 
+    //presenter
     val patientsPresenter = remember(appContainer) {
         appContainer.createPatientsPresenter(coroutineScope)
+    }
+
+    val registerPatientPresenter = remember(appContainer) {
+        appContainer.createRegisterPatientPresenter(coroutineScope)
     }
 
     val backStack = rememberNavBackStack(
@@ -90,23 +96,18 @@ fun AppRoot(
                 }
 
                 entry<RegisterPatientRoute> {
-                    Scaffold(
-                        topBar = {
-                            TopAppBar(
-                                title = { Text("Registrar paciente") },
-                                navigationIcon = {
-                                    IconButton(onClick = { backStack.removeLast() }) {
-                                        Text("←")
-                                    }
-                                }
-                            )
-                        }
-                    ) { inner ->
-                        Box(
-                            modifier = Modifier.padding(inner),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text("Pantalla en construcción")
+                    RegisterPatientScreen(
+                        presenter = registerPatientPresenter,
+                        onBack = { backStack.removeLast() }
+                    )
+
+                    // ✅ cuando se guarda, vuelve a la lista y limpia formulario
+                    val st by registerPatientPresenter.state.collectAsState()
+                    LaunchedEffect(st.savedSuccessfully) {
+                        if (st.savedSuccessfully) {
+                            registerPatientPresenter.consumeSaved()
+                            registerPatientPresenter.resetForm()
+                            backStack.removeLast() // regresa a PatientsRoute
                         }
                     }
                 }

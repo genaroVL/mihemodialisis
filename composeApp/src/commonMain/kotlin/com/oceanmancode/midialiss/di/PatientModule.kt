@@ -12,7 +12,8 @@ import com.oceanmancode.midialiss.domain.usecase.session.CalculateUltraFiltratio
 import com.oceanmancode.midialiss.domain.usecase.session.DeleteDialysisSessionUseCase
 import com.oceanmancode.midialiss.domain.usecase.session.ObserveSessionsByPatientUseCase
 import com.oceanmancode.midialiss.domain.usecase.session.SessionsUseCases
-import com.oceanmancode.midialiss.presentation.screens.patient.PatientsPresenter
+import com.oceanmancode.midialiss.presentation.screens.patient.presenter.PatientsPresenter
+import com.oceanmancode.midialiss.presentation.screens.patient.presenter.RegisterPatientPresenter
 import kotlinx.coroutines.CoroutineScope
 
 class PatientModule(
@@ -41,6 +42,13 @@ class PatientModule(
 
     fun createPatientsPresenter(coroutineScope: CoroutineScope): PatientsPresenter {
         return PatientsPresenter(
+            patientUseCases = patientUseCases,
+            coroutineScope = coroutineScope
+        )
+    }
+
+    fun createRegisterPatientPresenter(coroutineScope: CoroutineScope): RegisterPatientPresenter {
+        return RegisterPatientPresenter(
             patientUseCases = patientUseCases,
             coroutineScope = coroutineScope
         )

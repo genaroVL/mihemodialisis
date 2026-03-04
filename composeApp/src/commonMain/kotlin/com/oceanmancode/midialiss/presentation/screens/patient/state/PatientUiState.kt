@@ -1,4 +1,4 @@
-package com.oceanmancode.midialiss.presentation.screens.patient
+package com.oceanmancode.midialiss.presentation.screens.patient.state
 
 import com.oceanmancode.midialiss.domain.model.Patient
 

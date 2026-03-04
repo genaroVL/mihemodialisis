@@ -13,7 +13,7 @@ data class PatientEntity(
     val firstName: String,
     val lastName: String,
     val secondLastName: String,
-    val birthYear: Int,
+    val birthDate: String,
     val curp: String?,
     val dryWeightKg: Double
 ) {
